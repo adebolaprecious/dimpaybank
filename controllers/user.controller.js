@@ -204,7 +204,7 @@ const generateAccountNumber = () => {
 const deleteUser = async (req, res) => {
     const { id } = req.params;
     try {
-        const user = await User.findByIdAndDelete(id);
+        const user = await Usermodel.findByIdAndDelete(id);
         if (!user) {
             return res.status(404).json({
                 success: false,
@@ -225,26 +225,20 @@ const deleteUser = async (req, res) => {
     }
 };
 const verifyOTP = async (req, res) => {
-
   try {
-
     const { email, otp } = req.body;
 
     const existingOTP = await OTPModel.findOne({ email });
 
     if (!existingOTP) {
-      return res.status(404).json({
-        message: "OTP not found"
-      });
+      return res.status(404).json({ message: "OTP not found" });
     }
 
     if (existingOTP.otp !== otp) {
-      return res.status(400).json({
-        message: "Invalid OTP"
-      });
+      return res.status(400).json({ message: "Invalid OTP" });
     }
 
-    await UserModel.findOneAndUpdate(
+    await Usermodel.findOneAndUpdate(  // ✅ Usermodel not UserModel
       { email },
       { isVerified: true }
     );
@@ -257,13 +251,8 @@ const verifyOTP = async (req, res) => {
     });
 
   } catch (error) {
-
-    res.status(500).json({
-      message: error.message
-    });
-
+    res.status(500).json({ message: error.message });
   }
-
 };
 const createPin = async (req, res) => {
   try {
