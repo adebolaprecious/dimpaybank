@@ -6,21 +6,15 @@ require("dotenv").config();
 const app = express();
 
 // Middleware
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://dimpaybankfr-tde6.vercel.app"
-];
+const cors = require("cors");
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true
+    origin: [
+      "http://localhost:5173",
+      "https://dimpaybankfr-tde6.vercel.app",
+    ],
+    credentials: true,
   })
 );
 
